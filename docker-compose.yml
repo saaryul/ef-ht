@@ -1,0 +1,83 @@
+version: "3.9"
+
+networks:
+  app_network:
+    driver: bridge
+
+services:
+  sftp:
+    image: atmoz/sftp
+    container_name: sftp_server
+    command: ftpuser:ftppass:::uploads
+    networks:
+      app_network:
+        aliases:
+          - sftp.internal
+    ports:
+      - "22:22"
+    volumes:
+      - sftp_data:/home/ftpuser/uploads  
+    restart: always
+
+  agent_region_1:
+    build: ./agent
+    container_name: agent_region_1
+    depends_on:
+      - sftp
+    networks:
+      - app_network
+    environment:
+      REGION: "eu-west-2"
+      FTP_HOST: "sftp"
+      FTP_USER: "ftpuser"
+      FTP_PASSWORD: "ftppass"
+      FTP_TARGET_DIR: "/home/ftpuser/uploads"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_REGION: "${AWS_REGION}"
+      SNS_TOPIC_ARN: "${SNS_TOPIC_ARN}"
+    volumes:
+      - ./sample_data/sample.csv:/mnt/sample.csv 
+
+  agent_region_2:
+    build: ./agent
+    container_name: agent_region_2
+    depends_on:
+      - sftp
+    networks:
+      - app_network
+    environment:
+      REGION: "eu-west-2"
+      FTP_HOST: "sftp"
+      FTP_USER: "ftpuser"
+      FTP_PASSWORD: "ftppass"
+      FTP_TARGET_DIR: "/home/ftpuser/uploads"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_REGION: "${AWS_REGION}"
+      SNS_TOPIC_ARN: "${SNS_TOPIC_ARN}"
+    volumes:
+      - ./sample_data/sample.csv:/mnt/sample.csv 
+
+  agent_region_3:
+    build: ./agent
+    container_name: agent_region_3
+    depends_on:
+      - sftp
+    networks:
+      - app_network
+    environment:
+      REGION: "eu-west-2"
+      FTP_HOST: "sftp"
+      FTP_USER: "ftpuser"
+      FTP_PASSWORD: "ftppass"
+      FTP_TARGET_DIR: "/home/ftpuser/uploads"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_REGION: "${AWS_REGION}"
+      SNS_TOPIC_ARN: "${SNS_TOPIC_ARN}"
+    volumes:
+      - ./sample_data/sample.csv:/mnt/sample.csv 
+
+volumes:
+  sftp_data:
