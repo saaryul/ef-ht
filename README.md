@@ -39,7 +39,7 @@ Note that this will deploy a new SNS Topip + cloudWatcg logs_group in your selec
 
 ### 1️⃣ Install CDK Dependencies
 ```sh
-cd cdk
+cd cdk_stack
 pip install -r requirements.txt
 ```
 
