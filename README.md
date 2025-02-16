@@ -8,7 +8,7 @@
 Agent based data collection solution for centralized data created on different regions.
 
 ### **High-Level Design (HLD)**
-![HLD Diagram](hld.jpg)
+![HLD Diagram](hld.png)
 
 ### 🛠 Components
 1. **AWS CDK Infrastructure (Step 1)**
